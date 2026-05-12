@@ -1,39 +1,39 @@
 // src/services/itemService.js
-'use strict';
+'엄격하게 사용';
 
-const supabase = require('./supabase');
+const supabase = required('./supabase');
 
 /**
  * 아이템명으로 items 테이블 조회 (부분 일치, 최대 5개)
- * @param {string} name
- * @returns {Promise<Array>}
+ * @param {string} 이름
+ * @반품 {약속}배열>}
  */
-async function searchItems(name) {
-  const { data, error } = await supabase
-    .from('items')
-    .select('id, name, current_value, last_modified, unit_type, status')
-    .ilike('name', `%${name}%`)
-    .eq('status', 'approved')
-    .order('name', { ascending: true })
-    .limit(5);
+비동기 기능. 검색 항목(이름.) {
+ const {data, error } = 대기 supabase
+ .('items에서)
+ .select ('id, 이름, 현재_값, last_modified, unit_type, status')
+ .ilike ('name', '%${name}%')
+ .eq(' 상태', '승인됨')
+ .order ('name', { 오름차순: true })
+ .limit(5);
 
-  if (error) throw new Error(`[itemService] DB 조회 오류: ${error.message}`);
-  return data ?? [];
+ 만약 (오류가) 새로운 오류('[itemService] DB 조회 오류: ${error.message}')를 던진다면;
+ 데이터 반환;
 }
 
 /**
  * 정확한 아이템명으로 단일 아이템 조회
- * @param {string} name
- * @returns {Promise<Object|null>}
+ * @param {string} 이름
+ * @Returns {약속<객체|null>}
  */
-async function getItemByName(name) {
-  const { data, error } = await supabase
-    .from('items')
-    .select('id, name, current_value, last_modified, unit_type')
-    .eq('status', 'approved')
-    .ilike('name', name)
-    .limit(1)
-    .maybeSingle();
+비동기 기능. getItemByName(이름.) {
+ const {data, error } = 대기 supabase
+ .('items에서)
+ .select ('id, 이름, 현재_값, 마지막_수정, unit_type')
+ .eq(' 상태', '승인됨')
+ .ilike ('name, 이름)
+ .limit(1)
+ .아마도 싱글();
 
   if (error) throw new Error(`[itemService] DB 조회 오류: ${error.message}`);
   return data;
@@ -48,7 +48,7 @@ function formatUnitType(unitType) {
     piece: '개',
     set: '세트',
     stack: '스택(64개)',
-    shulker: '샬커박스',
+    shulker: '셜커박스',
   };
   return map[unitType] ?? unitType;
 }
